@@ -50,22 +50,6 @@ agent any
       } // steps for checkout stages
     } // stage 'checkout'
 
-    stage ('Liquibase Checks'){
-      steps {
-            sh '''
-            { set +x; } 2>/dev/null
-            echo "cd ${PROJECT}/${BASEDIR}"
-            cd ${PROJECT}/${BASEDIR}
-            echo "Using properties file: "${LIQUIBASE_DEFAULTS_FILE}
-            liquibase checks run
-            if [ $? -ne 0 ]; then
-              echo "Liquibase Checks Run command failed with return code = " $?
-              exit 1
-            fi
-            '''
-      } // steps
-    }   // Environment stage
-
     stage ('Liquibase Status'){
       steps {
             sh '''
