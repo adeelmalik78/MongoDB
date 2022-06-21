@@ -57,7 +57,7 @@ agent any
             echo "cd ${PROJECT}/${BASEDIR}"
             cd ${PROJECT}/${BASEDIR}
             echo "Using properties file: "${LIQUIBASE_DEFAULTS_FILE}
-            liquibase status --verbose
+            liquibase --contexts=mydb status --verbose
             '''
       } // steps
     }   // Environment stage
@@ -69,11 +69,7 @@ agent any
             echo "cd ${PROJECT}/${BASEDIR}"
             cd ${PROJECT}/${BASEDIR}
             echo "Using properties file: "${LIQUIBASE_DEFAULTS_FILE}
-            liquibase --logLevel=INFO update
-            if [ $? -ne 0 ]; then
-              echo "Updated failed ... rolling back changes ..." 
-            #  liquibase --logLevel=INFO rollbackOneUpdate --force
-            fi
+            liquibase --contexts=mydb --logLevel=INFO update
             '''
       } // steps
     }   // Environment stage

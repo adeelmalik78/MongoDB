@@ -58,7 +58,7 @@ agent any
             echo "cd ${PROJECT}/${BASEDIR}"
             cd ${PROJECT}/${BASEDIR}
             echo "Using properties file: "${LIQUIBASE_DEFAULTS_FILE}
-            liquibase status --verbose
+            liquibase --contexts=mydb status --verbose
             '''
       } // steps
     }   // Environment stage
@@ -73,10 +73,10 @@ agent any
             if [ -z "${LB_COMMAND}" ]
             then
                 echo "(no LB_COMMAND was provided) Running command: liquibase status --verbose"
-                liquibase status --verbose
+                liquibase --contexts=mydb status --verbose
             else
                 echo "Running command: liquibase "${LBCOMMAND}
-                liquibase ${LB_COMMAND}
+                liquibase --contexts=mydb ${LB_COMMAND}
             fi
             '''
       } // steps
