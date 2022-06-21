@@ -8,7 +8,7 @@
     <!-- <property name="databaseName" value="analytics"/> -->
 
     <changeSet id="create_students" author="SteveZ" labels="version1">
-      <ext:createCollection collectionName="${databaseName}.students">
+      <ext:createCollection collectionName="analytics.students">
           <ext:options>
             {
             validator: {
@@ -58,7 +58,7 @@
       </ext:createCollection>
     </changeSet>
     <changeSet id="insertOne_Students" author="AmyS" labels="version1">
-        <ext:insertOne collectionName="${databaseName}.students">
+        <ext:insertOne collectionName="analytics.students">
             <ext:document>
                 {
                    name: "Alice",
@@ -87,7 +87,7 @@
       </rollback>
     </changeSet>
     <changeSet id="create_inventory" author="AdeelM" labels="version1">
-      <ext:insertMany collectionName="${databaseName}.inventory">
+      <ext:insertMany collectionName="analytics.inventory">
           <ext:documents>
             [
              { item: "journal", qty: NumberInt(25), size: { h: 14, w: 21, uom: "cm" }, instock: true },
@@ -104,7 +104,7 @@
          <ext:runCommand>
             <ext:command>
                {
-                  delete: "${databaseName}.inventory",
+                  delete: "analytics.inventory",
                   deletes: [ 
                      { q: { item: "journal" }, limit: 0},
                      { q: { item: "notebook" }, limit: 0},
@@ -125,8 +125,8 @@
       <ext:runCommand>
           <ext:command>
             { 
-               cloneCollectionAsCapped: "${databaseName}.inventory",
-               toCollection: "${databaseName}.capped_inventory",
+               cloneCollectionAsCapped: "analytics.inventory",
+               toCollection: "analytics.capped_inventory",
                size: 100000,
                comment: "This is a capped collection"
              }
@@ -135,13 +135,13 @@
       <rollback>
          <ext:runCommand>
             <ext:command>
-               { drop: "${databaseName}.capped_inventory" }
+               { drop: "analytics.capped_inventory" }
             </ext:command>
          </ext:runCommand>
       </rollback>
   </changeSet> -->
   <changeSet id="create_car" author="AdeelM" labels="version1">
-   <ext:insertMany collectionName="${databaseName}.car">
+   <ext:insertMany collectionName="analytics.car">
        <ext:documents>
          [
          { _id: 1, name: "Alto", color: "Red",cno: "H410",speed:40,mfdcountry: "India"},
@@ -162,7 +162,7 @@
    <ext:runCommand>
        <ext:command>
              {
-               findAndModify: "${databaseName}.car",
+               findAndModify: "analytics.car",
                query: { name: "Alto" },
                sort: { cno: 1 },
                update: { $inc: { speed: 10 } },
@@ -172,7 +172,7 @@
       <rollback>
          <ext:command>
             {
-               findAndModify: "${databaseName}.car",
+               findAndModify: "analytics.car",
                query: { name: "Alto" },
                sort: { cno: 1 },
                update: { $inc: { speed: 40 } },
@@ -184,7 +184,7 @@
       <ext:runCommand>
           <ext:command>
                 {
-                  findAndModify: "${databaseName}.car",
+                  findAndModify: "analytics.car",
                   query: { name: "HondaCity", color: "Silver", cno:"H415" ,speed: 25 },
                   sort: { cno: 1 },
                   update: { $inc: { speed: 20 } },
@@ -196,7 +196,7 @@
          <rollback>
             <ext:command>
                {
-                 findAndModify: "${databaseName}.car",
+                 findAndModify: "analytics.car",
                  query: { name: "HondaCity", color: "Silver", cno:"H415" ,speed: 25 },
                  sort: { cno: 1 },
                  update: { $inc: { speed: 10 } },
@@ -207,7 +207,7 @@
          </rollback>
       </changeSet>
       <changeSet id="57" author="liquibase" labels="version1">
-         <ext:createIndex collectionName="${databaseName}.createIndexTest">
+         <ext:createIndex collectionName="analytics.createIndexTest">
             <ext:keys>
                   { clientId: 1, type: 1}
             </ext:keys>
