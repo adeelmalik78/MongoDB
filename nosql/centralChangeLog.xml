@@ -1,0 +1,50 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd" >
+
+    <!-- <include file="json/00_user.xml" /> -->
+
+    <includeAll path="json/mydb" context="mydb"/>
+    <includeAll path="json/analytics" context="analytics"/>
+    <includeAll path="json/epod-cms" context="epod-cms"/>
+
+
+    <changeSet id="create_inventory" author="AdeelM" labels="version1" >
+      <ext:insertMany collectionName="inventory">
+          <ext:documents>
+            [
+             { item: "journal", qty: NumberInt(25), size: { h: 14, w: 21, uom: "cm" }, instock: true, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0 },
+             { item: "notebook", qty: NumberInt(50), size: { h: 8.5, w: 11, uom: "in" }, instock: true, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  },
+             { item: "paper", qty: NumberInt(100), size: { h: 8.5, w: 11, uom: "in" }, instock: 1, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  },
+             { item: "planner", qty: NumberInt(75), size: { h: 22.85, w: 30, uom: "cm" }, instock: 1, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  },
+             { item: "postcard", qty: NumberInt(45), size: { h: 10, w: 15.25, uom: "cm" }, instock: true, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  },
+             { item: "apple", qty: NumberInt(45), status: "A", instock: true, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  },
+             { item: "pears", qty: NumberInt(50), status: "A", instock: true, createdBy: "amalik", updatedBy: "amalik", createdAt: Date(), updatedAt: Date(), version: 0  }
+            ]
+          </ext:documents>
+      </ext:insertMany>
+    </changeSet> 
+
+   <changeSet id="findAndModify_example" author="AM123" labels="version1">
+   <ext:runCommand>
+       <ext:command>
+             {
+               update: "inventory",
+               updates: [
+                    { 
+                        q: { version: {$exists: true} }
+                        u: { $set: {createdBy: "SystemUser", updatedBy: "SystemUser", createdAt:Date(), updatedAt:Date(), version: 1} },
+                        multi: true 
+                    }
+                ], 
+                ordered: false,
+                writeConcern: {w: "majority", wtimeout: 5000 }
+            }
+         </ext:command>
+      </ext:runCommand>
+   </changeSet>
+
+</databaseChangeLog>

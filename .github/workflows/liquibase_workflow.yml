@@ -1,0 +1,73 @@
+# This is a basic workflow to help you get started with Actions
+
+name: run_changes
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+  # pull_request:
+  #   branches: [ main ]
+  #  inputs:
+  #    tag:
+  #      description: 'Enter tag to rollback'
+  #      required: true
+       
+
+env:
+    LIQUIBASE_PRO_LICENSE_KEY: ${{ secrets.LIQUIBASE_PRO_LICENSE_KEY }}
+    LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_COMMAND_URL }}
+    LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_COMMAND_USERNAME }}
+    LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_COMMAND_PASSWORD }}
+    LIQUIBASE_COMMAND_CHANGELOG_FILE: ${{ secrets.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+    LIQUIBASE_CLASSPATH: ${{ secrets.LIQUIBASE_CLASSPATH }}
+    
+jobs:
+
+  liquibase_job:
+    runs-on: ubuntu-latest
+   environment: 
+     name: DEV
+
+    steps:
+    - uses: actions/checkout@v2
+      
+
+
+    # - name: ls
+    #   uses: docker://liquibase/liquibase:4.8
+    #   with:
+    #     args: ls -alh 
+
+    # - name: Reviewing pending SQL changes
+    #   uses: docker://liquibase/liquibase:4.8
+    #   with:
+    #     args: status --verbose
+
+    
+#     - name: Tagging the database for future rollbacks
+#       uses: docker://liquibase/liquibase:4.8
+#       with:
+#         args: tag ${{ github.event.inputs.tag }}
+    
+#     - name: Validating Database Changes
+#       uses: docker://liquibase/liquibase:4.8
+#       with:
+#         args: update
+      
+#     - name: Validating rollbacks
+#       uses: docker://liquibase/liquibase:4.8
+#       with:
+#         args: rollback ${{ github.event.inputs.tag }}
+        
+#     - name: Deploying Database Changes
+#       uses: docker://liquibase/liquibase:4.8
+#       with:
+#         args: update
+          
+    # - name: Running the History command 
+    #   uses: docker://liquibase/liquibase:4.8
+    #   with:
+    #     args: liquibase history

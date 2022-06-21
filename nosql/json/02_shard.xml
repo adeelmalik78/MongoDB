@@ -1,0 +1,41 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd" changeLogId="1bf4d5a4-9871-4ca4-a9d1-abd869ffbabd">
+
+
+    <property name="databaseName" value="epod-cms"/>
+
+    <changeSet id="1" author="alex">
+        <ext:adminCommand>
+            <ext:command>
+                { buildInfo: 1 }
+            </ext:command>
+        </ext:adminCommand>
+    </changeSet>
+
+    <changeSet id="2" author="alex">
+        <ext:adminCommand>
+            <ext:command>
+                { shardCollection: "${databaseName}.inventory", name: "hashed" , unique: true}
+            </ext:command>
+        </ext:adminCommand>
+    </changeSet>
+<!-- 
+    <changeSet id="2" author="alex">
+
+        <ext:adminCommand>
+
+            <ext:command>
+                { shardCollection: "${databaseName}.player_info_static", key: {location: 1, _id: 1}, unique: true}
+                { shardCollection: "${databaseName}.inventory", key: {item: "hashed"} }
+            </ext:command>
+
+        </ext:adminCommand>
+
+    </changeSet> -->
+
+
+</databaseChangeLog>
