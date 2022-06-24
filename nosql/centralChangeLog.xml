@@ -7,12 +7,12 @@
 
     <!-- <include file="json/00_user.xml" /> -->
 
-    <includeAll path="json/mydb" context="mydb"/>
     <includeAll path="json/analytics" context="analytics"/>
     <includeAll path="json/epod-cms" context="epod-cms"/>
+    <includeAll path="json/mydb" context="mydb"/>
 
 
-    <changeSet id="create_inventory" author="AdeelM" labels="version1" >
+    <changeSet id="insert_inventory" author="AdeelM" labels="version1" >
       <ext:insertMany collectionName="inventory">
           <ext:documents>
             [
